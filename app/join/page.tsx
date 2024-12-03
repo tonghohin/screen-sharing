@@ -18,6 +18,11 @@ export default function JoinPage() {
     const peerRef = useRef<Peer | null>(null);
     const { toast } = useToast();
 
+    const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+    const [recordingChunks, setRecordingChunks] = useState<Blob[]>([]);
+    const [isRecording, setIsRecording] = useState(false);
+    const [activeStream, setActiveStream] = useState<MediaStream | null>(null);
+
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const roomFromUrl = params.get("room");
@@ -29,6 +34,9 @@ export default function JoinPage() {
             if (peerRef.current) {
                 peerRef.current.destroy();
                 peerRef.current = null;
+            }
+            if (mediaRecorder) {
+                mediaRecorder.stop();
             }
         };
     }, []);
@@ -66,6 +74,7 @@ export default function JoinPage() {
                         videoRef.current.srcObject = remoteStream;
                         videoRef.current.play().catch(console.error);
                     }
+                    setActiveStream(remoteStream);
                 });
             });
 
@@ -90,6 +99,66 @@ export default function JoinPage() {
             });
         });
     }
+
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+
+            const mediaRecorder = new MediaRecorder(stream, {
+                mimeType: "video/webm;codecs=vp8,opus"
+            });
+
+            mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    setRecordingChunks((prev) => [...prev, event.data]);
+                }
+            };
+
+            mediaRecorder.onstart = () => {
+                toast({
+                    title: "Recording started",
+                    description: "The recording has started successfully."
+                });
+            };
+
+            mediaRecorder.onerror = (event) => {
+                console.error("MediaRecorder error:", event);
+                setIsRecording(false);
+                setMediaRecorder(null);
+                toast({
+                    title: "Recording Error",
+                    description: "An error occurred during recording.",
+                    variant: "destructive"
+                });
+            };
+
+            setRecordingChunks([]);
+            mediaRecorder.start(100);
+            setMediaRecorder(mediaRecorder);
+            setIsRecording(true);
+        } catch (error) {
+            console.error("Error accessing media devices:", error);
+        }
+    };
+
+    const stopRecording = () => {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(recordingChunks, { type: "video/webm" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "recorded-video.webm";
+                a.click();
+                URL.revokeObjectURL(url);
+                setRecordingChunks([]);
+            };
+        }
+    };
 
     return (
         <div className="py-8 px-4">
@@ -121,6 +190,26 @@ export default function JoinPage() {
                             <div className="space-y-4">
                                 <div ref={videoContainerRef} className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden group">
                                     <video ref={videoRef} className="w-full h-full object-contain" autoPlay playsInline controls />
+                                </div>
+                                <div className="flex gap-4">
+                                    <Button
+                                        onClick={() => {
+                                            if (activeStream) {
+                                                startRecording();
+                                            } else {
+                                                toast({
+                                                    title: "No Stream Available",
+                                                    description: "There is no active stream to record.",
+                                                    variant: "destructive"
+                                                });
+                                            }
+                                        }}
+                                        disabled={isRecording}>
+                                        Start Recording
+                                    </Button>
+                                    <Button onClick={stopRecording} disabled={!isRecording}>
+                                        Stop Recording
+                                    </Button>
                                 </div>
                             </div>
                         )}
