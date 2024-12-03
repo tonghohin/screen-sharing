@@ -100,31 +100,39 @@ export default function JoinPage() {
         });
     }
 
-    const startRecording = async () => {
+    function startRecording() {
+        console.log(peerRef.current);
+        console.log("Connection when start recording", isConnected);
+        if (!activeStream) {
+            toast({
+                title: "No Stream",
+                description: "No active stream to record.",
+                variant: "destructive"
+            });
+            return;
+        }
+
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: true
+            const mimeType = "video/mp4";
+            const recorder = new MediaRecorder(activeStream, {
+                mimeType,
+                videoBitsPerSecond: 2500000
             });
 
-            const mediaRecorder = new MediaRecorder(stream, {
-                mimeType: "video/webm;codecs=vp8,opus"
-            });
-
-            mediaRecorder.ondataavailable = (event) => {
+            recorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
                     setRecordingChunks((prev) => [...prev, event.data]);
                 }
             };
 
-            mediaRecorder.onstart = () => {
+            recorder.onstart = () => {
                 toast({
                     title: "Recording started",
                     description: "The recording has started successfully."
                 });
             };
 
-            mediaRecorder.onerror = (event) => {
+            recorder.onerror = (event) => {
                 console.error("MediaRecorder error:", event);
                 setIsRecording(false);
                 setMediaRecorder(null);
@@ -136,29 +144,53 @@ export default function JoinPage() {
             };
 
             setRecordingChunks([]);
-            mediaRecorder.start(100);
-            setMediaRecorder(mediaRecorder);
+            recorder.start(100);
+            setMediaRecorder(recorder);
             setIsRecording(true);
         } catch (error) {
-            console.error("Error accessing media devices:", error);
+            console.error("Failed to start recording:", error);
+            setIsRecording(false);
+            toast({
+                title: "Recording Error",
+                description: "Unable to start recording. Please try again.",
+                variant: "destructive"
+            });
         }
-    };
+    }
 
-    const stopRecording = () => {
-        if (mediaRecorder && mediaRecorder.state !== "inactive") {
-            mediaRecorder.stop();
+    function stopRecording() {
+        if (!mediaRecorder) return;
+
+        try {
             mediaRecorder.onstop = () => {
-                const blob = new Blob(recordingChunks, { type: "video/webm" });
+                const blob = new Blob(recordingChunks, { type: "video/mp4" });
                 const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "recorded-video.webm";
-                a.click();
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = `recording-${new Date().toISOString()}.mp4`;
+                link.click();
+
                 URL.revokeObjectURL(url);
                 setRecordingChunks([]);
+                setIsRecording(false);
+                setMediaRecorder(null);
+
+                toast({
+                    title: "Recording Saved",
+                    description: "The recording has been saved successfully."
+                });
             };
+
+            mediaRecorder.stop();
+        } catch (error) {
+            console.error("Error stopping recording:", error);
+            toast({
+                title: "Error",
+                description: "Failed to stop recording.",
+                variant: "destructive"
+            });
         }
-    };
+    }
 
     return (
         <div className="py-8 px-4">
