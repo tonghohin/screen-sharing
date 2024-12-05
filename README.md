@@ -4,7 +4,7 @@ A real-time screen sharing application built with Next.js, WebRTC, and PeerJS. C
 
 ## ✨ Features
 
-- Real-time screen sharing
+- Real-time screen and audio sharing
 - Room-based sharing system
 - Cross-browser support
 - Simple and intuitive interface

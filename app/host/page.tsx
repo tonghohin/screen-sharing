@@ -14,15 +14,14 @@ import { ShareOptions } from "./_components/ShareOptions";
 export default function HostPage() {
     const [roomId, setRoomId] = useState("");
     const [peer, setPeer] = useState<Peer | null>(null);
-    const [viewers, setViewers] = useState(0);
     const [activeStream, setActiveStream] = useState<MediaStream | null>(null);
+    const [connections, setConnections] = useState<string[]>([]);
     const { toast } = useToast();
     const router = useRouter();
 
     useEffect(() => {
         try {
             const newPeer = new Peer({ debug: 2 });
-
             setPeer(newPeer);
 
             newPeer.on("open", (id) => {
@@ -30,12 +29,26 @@ export default function HostPage() {
             });
 
             newPeer.on("connection", (connection) => {
-                setViewers((prev) => prev + 1);
+                setConnections((prev) => [...prev, connection.peer]);
 
                 connection.on("close", () => {
-                    setViewers((prev) => prev - 1);
+                    setConnections((prev) => prev.filter((peerId) => peerId !== connection.peer));
                 });
+            });
 
+            return () => {
+                newPeer.destroy();
+            };
+        } catch (error) {
+            console.error("Error initializing peer:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!peer) return;
+
+        if (!activeStream) {
+            if (connections.length > 0) {
                 toast({
                     title: "New viewer connected",
                     description: "Click to start sharing your screen.",
@@ -50,12 +63,6 @@ export default function HostPage() {
                                         audio: true
                                     });
                                     setActiveStream(stream);
-                                    const call = newPeer.call(connection.peer, stream);
-
-                                    stream.getVideoTracks()[0].onended = () => {
-                                        call.close();
-                                        stream.getTracks().forEach((track) => track.stop());
-                                    };
                                 } catch (err) {
                                     console.error("Screen sharing error:", err);
                                     toast({
@@ -69,15 +76,18 @@ export default function HostPage() {
                         </ToastAction>
                     )
                 });
-            });
+            }
+        } else {
+            connections.forEach((connection) => {
+                const call = peer.call(connection, activeStream);
 
-            return () => {
-                newPeer.destroy();
-            };
-        } catch (error) {
-            console.error("Error initializing peer:", error);
+                activeStream.getTracks()[0].onended = () => {
+                    call.close();
+                    activeStream.getTracks().forEach((track) => track.stop());
+                };
+            });
         }
-    }, [toast]);
+    }, [peer, toast, activeStream, connections]);
 
     function endSession() {
         if (activeStream) {
@@ -90,7 +100,7 @@ export default function HostPage() {
             setPeer(null);
         }
 
-        setViewers(0);
+        setConnections([]);
         setRoomId("");
 
         toast({
@@ -127,7 +137,7 @@ export default function HostPage() {
                                 <Users className="h-5 w-5 text-gray-500" />
                                 <span className="text-sm text-gray-500">Current Viewers</span>
                             </div>
-                            <span className="text-lg font-semibold">{viewers}</span>
+                            <span className="text-lg font-semibold">{connections.length}</span>
                         </div>
 
                         {activeStream && (
