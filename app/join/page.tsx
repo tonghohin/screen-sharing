@@ -127,6 +127,7 @@ export default function JoinPage() {
             };
 
             recorder.onstart = () => {
+                setRecordingChunks([]);
                 toast({
                     title: "Recording started",
                     description: "The recording has started successfully."
@@ -144,7 +145,6 @@ export default function JoinPage() {
                 });
             };
 
-            setRecordingChunks([]);
             recorder.start(100);
             setMediaRecorder(recorder);
             setIsRecording(true);
