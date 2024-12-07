@@ -1,0 +1,59 @@
+{
+    "Common": {
+        "title": "屏幕共享 - 立即共享您的屏幕",
+        "description": "使用简单的房间代码立即与任何人共享您的屏幕。无需下载或注册。",
+        "keywords": "屏幕共享, webrtc, 在线屏幕共享, 浏览器屏幕共享, 免费屏幕共享",
+        "footer": "由<author>Hin</author>构建。源代码可在<link>Github</link>上获得。",
+        "back-to-home": "返回首页"
+    },
+    "Home": {
+        "header": "立即共享您的屏幕",
+        "description": "创建一个房间，分享代码，几秒钟内开始向您的观众展示。",
+        "start-title": "开始共享",
+        "start-desc": "创建一个房间并与其他人共享您的屏幕",
+        "create-room-btn": "创建房间",
+        "join-title": "加入房间",
+        "join-desc": "输入房间代码以查看某人的屏幕",
+        "join-room-btn": "加入房间"
+    },
+    "ShareOptions": {
+        "code-copied": "房间代码已复制！",
+        "code-copied-desc": "与他人分享此代码，让他们加入您的房间。",
+        "link-copied": "可分享链接已复制！",
+        "link-copied-desc": "与他人分享此链接，让他们直接加入您的房间。",
+        "room-code": "房间代码",
+        "copy-code-btn": "复制代码",
+        "generating-code": "正在生成房间代码...",
+        "shareable-link": "可分享链接",
+        "copy-link-btn": "复制链接",
+        "generating-link": "正在生成链接..."
+    },
+    "HostPage": {
+        "title": "您的屏幕共享房间",
+        "description": "与他人分享您的房间代码或链接，让他们查看您的屏幕。要共享音频，请确保您使用的是Chrome或Edge，并选择共享标签页的选项。",
+        "current-viewers": "当前观众",
+        "stop-sharing": "停止共享",
+        "new-viewer": "新观众已连接",
+        "new-viewer-desc": "点击开始共享您的屏幕。",
+        "share-error": "屏幕共享错误",
+        "share-error-desc": "无法启动屏幕共享。请再试一次。",
+        "start-sharing": "开始共享",
+        "session-ended": "会话已结束",
+        "session-ended-desc": "您的屏幕共享会话已终止。"
+    },
+    "JoinPage": {
+        "title": "加入房间",
+        "description": "输入房间代码以加入并查看共享屏幕",
+        "enter-code": "输入房间代码",
+        "join-room": "加入房间",
+        "connecting": "连接中...",
+        "code-required": "需要房间代码",
+        "code-required-desc": "请输入有效的房间代码。",
+        "connected": "已连接！",
+        "connected-desc": "等待主持人共享他们的屏幕...",
+        "disconnected": "已断开连接",
+        "disconnected-desc": "会议已结束。",
+        "connection-failed": "连接失败",
+        "connection-failed-desc": "无法连接到房间。请检查房间代码并重试。"
+    }
+}

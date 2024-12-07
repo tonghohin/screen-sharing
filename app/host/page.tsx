@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Monitor, Users } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Peer from "peerjs";
@@ -12,6 +13,8 @@ import { useEffect, useState } from "react";
 import { ShareOptions } from "./_components/ShareOptions";
 
 export default function HostPage() {
+    const tc = useTranslations("Common");
+    const t = useTranslations("HostPage");
     const [roomId, setRoomId] = useState("");
     const [peer, setPeer] = useState<Peer | null>(null);
     const [activeStream, setActiveStream] = useState<MediaStream | null>(null);
@@ -50,12 +53,12 @@ export default function HostPage() {
         if (!activeStream) {
             if (connections.length > 0) {
                 toast({
-                    title: "New viewer connected",
-                    description: "Click to start sharing your screen.",
+                    title: t("new-viewer"),
+                    description: t("new-viewer-desc"),
                     duration: Infinity,
                     action: (
                         <ToastAction
-                            altText="Start sharing"
+                            altText={t("start-sharing")}
                             onClick={async () => {
                                 try {
                                     const stream = await navigator.mediaDevices.getDisplayMedia({
@@ -66,13 +69,13 @@ export default function HostPage() {
                                 } catch (err) {
                                     console.error("Screen sharing error:", err);
                                     toast({
-                                        title: "Screen sharing error",
-                                        description: "Failed to start screen sharing. Please try again.",
+                                        title: t("share-error"),
+                                        description: t("share-error-desc"),
                                         variant: "destructive"
                                     });
                                 }
                             }}>
-                            Start Sharing
+                            {t("start-sharing")}
                         </ToastAction>
                     )
                 });
@@ -104,8 +107,8 @@ export default function HostPage() {
         setRoomId("");
 
         toast({
-            title: "Session ended",
-            description: "Your screen sharing session has been terminated."
+            title: t("session-ended"),
+            description: t("session-ended-desc")
         });
 
         router.push("/");
@@ -117,7 +120,7 @@ export default function HostPage() {
                 <Button variant="outline" asChild>
                     <Link href="/" className="flex items-center gap-2">
                         <ArrowLeft className="h-4 w-4" />
-                        Back to Home
+                        {tc("back-to-home")}
                     </Link>
                 </Button>
 
@@ -125,9 +128,9 @@ export default function HostPage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <Monitor className="h-6 w-6" />
-                            Your Screen Sharing Room
+                            {t("title")}
                         </CardTitle>
-                        <CardDescription>Share your room code or link with others to let them view your screen. To share audio as well, ensure you're using Chrome or Edge, and select the option to share a tab.</CardDescription>
+                        <CardDescription>{t("description")}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <ShareOptions roomId={roomId} />
@@ -135,7 +138,7 @@ export default function HostPage() {
                         <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
                             <div className="flex items-center gap-2">
                                 <Users className="h-5 w-5 text-gray-500" />
-                                <span className="text-sm text-gray-500">Current Viewers</span>
+                                <span className="text-sm text-gray-500">{t("current-viewers")}</span>
                             </div>
                             <span className="text-lg font-semibold">{connections.length}</span>
                         </div>
@@ -143,7 +146,7 @@ export default function HostPage() {
                         {activeStream && (
                             <div className="flex justify-end pt-4">
                                 <Button variant="destructive" onClick={endSession} className="flex items-center gap-2">
-                                    Stop sharing
+                                    {t("stop-sharing")}
                                 </Button>
                             </div>
                         )}
