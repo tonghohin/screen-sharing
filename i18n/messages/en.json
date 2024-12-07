@@ -1,0 +1,59 @@
+{
+    "Common": {
+        "title": "Screen Share - Share Your Screen Instantly",
+        "description": "Share your screen instantly with anyone using a simple room code. No downloads or sign-ups required.",
+        "keywords": "screen sharing, webrtc, online screen share, browser screen sharing, free screen sharing",
+        "footer": "Built by <author>Hin</author>. The source code is available on <link>Github</link>.",
+        "back-to-home": "Back to Home"
+    },
+    "Home": {
+        "header": "Share Your Screen Instantly",
+        "description": "Create a room, share the code, and start presenting to your audience in seconds.",
+        "start-title": "Start Sharing",
+        "start-desc": "Create a room and share your screen with others",
+        "create-room-btn": "Create Room",
+        "join-title": "Join a Room",
+        "join-desc": "Enter a room code to view someone's screen",
+        "join-room-btn": "Join Room"
+    },
+    "ShareOptions": {
+        "code-copied": "Room code copied!",
+        "code-copied-desc": "Share this code with others to let them join your room.",
+        "link-copied": "Shareable link copied!",
+        "link-copied-desc": "Share this link with others to let them join your room directly.",
+        "room-code": "Room Code",
+        "copy-code-btn": "Copy Code",
+        "generating-code": "Generating room code...",
+        "shareable-link": "Shareable Link",
+        "copy-link-btn": "Copy Link",
+        "generating-link": "Generating link..."
+    },
+    "HostPage": {
+        "title": "Your Screen Sharing Room",
+        "description": "Share your room code or link with others to let them view your screen. To share audio as well, ensure you're using Chrome or Edge, and select the option to share a tab.",
+        "current-viewers": "Current Viewers",
+        "stop-sharing": "Stop sharing",
+        "new-viewer": "New viewer connected",
+        "new-viewer-desc": "Click to start sharing your screen.",
+        "share-error": "Screen sharing error",
+        "share-error-desc": "Failed to start screen sharing. Please try again.",
+        "start-sharing": "Start Sharing",
+        "session-ended": "Session ended",
+        "session-ended-desc": "Your screen sharing session has been terminated."
+    },
+    "JoinPage": {
+        "title": "Join a Room",
+        "description": "Enter the room code to join and view the shared screen",
+        "enter-code": "Enter room code",
+        "join-room": "Join Room",
+        "connecting": "Connecting...",
+        "code-required": "Room code required",
+        "code-required-desc": "Please enter a valid room code.",
+        "connected": "Connected!",
+        "connected-desc": "Waiting for host to share their screen...",
+        "disconnected": "Disconnected",
+        "disconnected-desc": "The session has been ended.",
+        "connection-failed": "Connection failed",
+        "connection-failed-desc": "Could not connect to the room. Please check the room code and try again."
+    }
+}
