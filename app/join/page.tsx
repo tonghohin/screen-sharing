@@ -89,8 +89,8 @@ export default function JoinPage() {
     return (
         <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 py-8">
             <Button variant="outline" asChild>
-                <Link href="/" className="flex items-center gap-2 self-start">
-                    <ArrowLeft className="h-4 w-4" />
+                <Link href="/" className="flex items-center self-start">
+                    <ArrowLeft />
                     Back to Home
                 </Link>
             </Button>
@@ -98,7 +98,7 @@ export default function JoinPage() {
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                        <Users className="h-6 w-6" />
+                        <Users />
                         Join a Room
                     </CardTitle>
                     <CardDescription>Enter the room code to join and view the shared screen</CardDescription>

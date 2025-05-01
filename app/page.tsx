@@ -8,7 +8,7 @@ export default function Home() {
     return (
         <div className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-8">
             <div className="flex flex-col gap-4 text-center">
-                <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-6xl">Share Your Screen Instantly</h1>
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl dark:text-gray-100">Share Your Screen Instantly</h1>
                 <p className="text-xl text-gray-600 dark:text-gray-300">Create a room, share the code, and start presenting to your audience in seconds.</p>
             </div>
 
@@ -16,7 +16,7 @@ export default function Home() {
                 <Card className="transition-shadow hover:shadow-lg">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <Monitor className="h-6 w-6" />
+                            <Monitor />
                             Start Sharing
                         </CardTitle>
                         <CardDescription>Create a room and share your screen with others</CardDescription>
@@ -31,7 +31,7 @@ export default function Home() {
                 <Card className="transition-shadow hover:shadow-lg">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <Users className="h-6 w-6" />
+                            <Users />
                             Join a Room
                         </CardTitle>
                         <CardDescription>Enter a room code to view someone's screen</CardDescription>
@@ -47,7 +47,7 @@ export default function Home() {
             </div>
 
             <Alert>
-                <AlertCircle className="h-4 w-4" />
+                <AlertCircle />
                 <AlertTitle>Note</AlertTitle>
                 <AlertDescription>Screen sharing isn’t supported on mobile devices. Mobile users can still join a room to view screens shared by others.</AlertDescription>
             </Alert>

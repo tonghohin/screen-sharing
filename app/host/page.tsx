@@ -106,8 +106,8 @@ export default function HostPage() {
         <div className="px-4 py-8">
             <div className="mx-auto flex w-full max-w-2xl flex-col gap-8">
                 <Button variant="outline" asChild>
-                    <Link href="/" className="flex items-center gap-2 self-start">
-                        <ArrowLeft className="h-4 w-4" />
+                    <Link href="/" className="flex items-center self-start">
+                        <ArrowLeft />
                         Back to Home
                     </Link>
                 </Button>
@@ -115,7 +115,7 @@ export default function HostPage() {
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                            <Monitor className="h-6 w-6" />
+                            <Monitor />
                             Your Screen Sharing Room
                         </CardTitle>
                         <CardDescription>Share your room code or link with others to let them view your screen. To share audio as well, ensure you're using Chrome or Edge, and select the option to share a tab.</CardDescription>
@@ -125,7 +125,7 @@ export default function HostPage() {
 
                         <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
                             <div className="flex items-center gap-2 text-gray-500">
-                                <Users className="h-4 w-4" />
+                                <Users className="size-4" />
                                 <span className="text-sm">Current Viewers</span>
                             </div>
                             <span className="text-lg font-semibold">{connections.length}</span>

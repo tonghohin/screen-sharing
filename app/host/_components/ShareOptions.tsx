@@ -27,10 +27,10 @@ export function ShareOptions({ roomId }: ShareOptionsProps) {
     return (
         <div className="space-y-6">
             <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <div className="text-muted-foreground flex items-center justify-between text-sm">
                     <span>Room Code</span>
-                    <Button variant="ghost" size="sm" className="gap-2" onClick={copyRoomId} disabled={!roomId}>
-                        <Copy className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" onClick={copyRoomId} disabled={!roomId}>
+                        <Copy />
                         Copy Code
                     </Button>
                 </div>
@@ -42,15 +42,15 @@ export function ShareOptions({ roomId }: ShareOptionsProps) {
                     <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">or</span>
+                    <span className="bg-background text-muted-foreground px-2">or</span>
                 </div>
             </div>
 
             <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <div className="text-muted-foreground flex items-center justify-between text-sm">
                     <span>Shareable Link</span>
-                    <Button variant="ghost" size="sm" className="gap-2" onClick={copyShareableLink} disabled={!roomId}>
-                        <LinkIcon className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" onClick={copyShareableLink} disabled={!roomId}>
+                        <LinkIcon />
                         Copy Link
                     </Button>
                 </div>
