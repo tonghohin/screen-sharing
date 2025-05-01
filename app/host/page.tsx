@@ -112,10 +112,10 @@ export default function HostPage() {
     }
 
     return (
-        <div className="py-8 px-4">
-            <div className="max-w-2xl mx-auto space-y-8">
+        <div className="px-4 py-8">
+            <div className="mx-auto flex w-full max-w-2xl flex-col gap-8">
                 <Button variant="outline" asChild>
-                    <Link href="/" className="flex items-center gap-2">
+                    <Link href="/" className="flex items-center gap-2 self-start">
                         <ArrowLeft className="h-4 w-4" />
                         Back to Home
                     </Link>
@@ -129,23 +129,21 @@ export default function HostPage() {
                         </CardTitle>
                         <CardDescription>Share your room code or link with others to let them view your screen. To share audio as well, ensure you're using Chrome or Edge, and select the option to share a tab.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
+                    <CardContent className="flex flex-col gap-4">
                         <ShareOptions roomId={roomId} />
 
-                        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                            <div className="flex items-center gap-2">
-                                <Users className="h-5 w-5 text-gray-500" />
-                                <span className="text-sm text-gray-500">Current Viewers</span>
+                        <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
+                            <div className="flex items-center gap-2 text-gray-500">
+                                <Users className="h-4 w-4" />
+                                <span className="text-sm">Current Viewers</span>
                             </div>
                             <span className="text-lg font-semibold">{connections.length}</span>
                         </div>
 
                         {activeStream && (
-                            <div className="flex justify-end pt-4">
-                                <Button variant="destructive" onClick={endSession} className="flex items-center gap-2">
-                                    Stop sharing
-                                </Button>
-                            </div>
+                            <Button variant="destructive" onClick={endSession} className="self-end">
+                                Stop sharing
+                            </Button>
                         )}
                     </CardContent>
                 </Card>

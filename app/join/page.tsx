@@ -95,41 +95,37 @@ export default function JoinPage() {
     }
 
     return (
-        <div className="py-8 px-4">
-            <div className="max-w-2xl mx-auto space-y-8">
-                <Button variant="outline" asChild>
-                    <Link href="/" className="flex items-center gap-2">
-                        <ArrowLeft className="h-4 w-4" />
-                        Back to Home
-                    </Link>
-                </Button>
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 py-8">
+            <Button variant="outline" asChild>
+                <Link href="/" className="flex items-center gap-2 self-start">
+                    <ArrowLeft className="h-4 w-4" />
+                    Back to Home
+                </Link>
+            </Button>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                            <Users className="h-6 w-6" />
-                            Join a Room
-                        </CardTitle>
-                        <CardDescription>Enter the room code to join and view the shared screen</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        {!activeStream ? (
-                            <div className="space-y-4">
-                                <Input placeholder="Enter room code" value={roomId} onChange={(e) => setRoomId(e.target.value)} disabled={isConnecting} />
-                                <Button className="w-full" onClick={() => joinRoom()} disabled={isConnecting || !roomId.trim()}>
-                                    {isConnecting ? "Connecting..." : "Join Room"}
-                                </Button>
-                            </div>
-                        ) : (
-                            <div className="space-y-4">
-                                <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden group">
-                                    <video ref={videoRef} className="w-full h-full object-contain" autoPlay playsInline loop controls />
-                                </div>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
-            </div>
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <Users className="h-6 w-6" />
+                        Join a Room
+                    </CardTitle>
+                    <CardDescription>Enter the room code to join and view the shared screen</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {!activeStream ? (
+                        <div className="flex flex-col gap-4">
+                            <Input placeholder="Enter room code" value={roomId} onChange={(e) => setRoomId(e.target.value)} disabled={isConnecting} />
+                            <Button className="w-full" onClick={() => joinRoom()} disabled={isConnecting || !roomId.trim()}>
+                                {isConnecting ? "Connecting..." : "Join Room"}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="group relative aspect-video overflow-hidden rounded-lg bg-gray-900">
+                            <video ref={videoRef} className="h-full w-full object-contain" autoPlay playsInline loop controls />
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
         </div>
     );
 }
