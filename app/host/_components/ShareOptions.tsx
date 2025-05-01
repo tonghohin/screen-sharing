@@ -1,20 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 import { Copy, Link as LinkIcon } from "lucide-react";
+import { toast } from "sonner";
 
 interface ShareOptionsProps {
     roomId: string;
 }
 
 export function ShareOptions({ roomId }: ShareOptionsProps) {
-    const { toast } = useToast();
-
     function copyRoomId() {
         navigator.clipboard.writeText(roomId);
-        toast({
-            title: "Room code copied!",
+        toast.success("Room code copied!", {
             description: "Share this code with others to let them join your room."
         });
     }
@@ -22,8 +19,7 @@ export function ShareOptions({ roomId }: ShareOptionsProps) {
     function copyShareableLink() {
         const shareableUrl = `${window.location.origin}/join?room=${roomId}`;
         navigator.clipboard.writeText(shareableUrl);
-        toast({
-            title: "Shareable link copied!",
+        toast.success("Shareable link copied!", {
             description: "Share this link with others to let them join your room directly."
         });
     }
@@ -38,7 +34,7 @@ export function ShareOptions({ roomId }: ShareOptionsProps) {
                         Copy Code
                     </Button>
                 </div>
-                <code className="block w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm font-mono">{roomId || "Generating room code..."}</code>
+                <code className="block w-full rounded-lg bg-gray-100 p-3 font-mono text-sm dark:bg-gray-800">{roomId || "Generating room code..."}</code>
             </div>
 
             <div className="relative">
@@ -58,7 +54,7 @@ export function ShareOptions({ roomId }: ShareOptionsProps) {
                         Copy Link
                     </Button>
                 </div>
-                <code className="block w-full p-3 bg-gray-100 dark:bg-gray-800 rounded-lg text-sm font-mono truncate">{roomId ? `${window.location.origin}/join?room=${roomId}` : "Generating link..."}</code>
+                <code className="block w-full truncate rounded-lg bg-gray-100 p-3 font-mono text-sm dark:bg-gray-800">{roomId ? `${window.location.origin}/join?room=${roomId}` : "Generating link..."}</code>
             </div>
         </div>
     );

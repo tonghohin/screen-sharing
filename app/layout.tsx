@@ -1,5 +1,5 @@
 import { Clarity } from "@/components/Clarity";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,9 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={inter.className}>
-                <main className="flex flex-col justify-between min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+                <main className="flex min-h-screen flex-col justify-between bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
                     {children}
-                    <footer className="py-8 px-4 text-center text-gray-500 text-sm">
+                    <footer className="px-4 py-8 text-center text-sm text-gray-500">
                         Built by{" "}
                         <Link href="https://tonghohin.vercel.app" className="underline" target="_blank">
                             Hin
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </footer>
                 </main>
                 <Clarity />
-                <Toaster />
+                <Toaster richColors />
             </body>
         </html>
     );

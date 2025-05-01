@@ -2,13 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Monitor, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Peer from "peerjs";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { ShareOptions } from "./_components/ShareOptions";
 
 export default function HostPage() {
@@ -16,7 +15,6 @@ export default function HostPage() {
     const [peer, setPeer] = useState<Peer | null>(null);
     const [activeStream, setActiveStream] = useState<MediaStream | null>(null);
     const [connections, setConnections] = useState<string[]>([]);
-    const { toast } = useToast();
     const router = useRouter();
 
     useEffect(() => {
@@ -49,32 +47,26 @@ export default function HostPage() {
 
         if (!activeStream) {
             if (connections.length > 0) {
-                toast({
-                    title: "New viewer connected",
+                toast.info("New viewer connected", {
                     description: "Click to start sharing your screen.",
                     duration: Infinity,
-                    action: (
-                        <ToastAction
-                            altText="Start sharing"
-                            onClick={async () => {
-                                try {
-                                    const stream = await navigator.mediaDevices.getDisplayMedia({
-                                        video: true,
-                                        audio: true
-                                    });
-                                    setActiveStream(stream);
-                                } catch (err) {
-                                    console.error("Screen sharing error:", err);
-                                    toast({
-                                        title: "Screen sharing error",
-                                        description: "Failed to start screen sharing. Please try again.",
-                                        variant: "destructive"
-                                    });
-                                }
-                            }}>
-                            Start Sharing
-                        </ToastAction>
-                    )
+                    action: {
+                        label: "Start Sharing",
+                        onClick: async () => {
+                            try {
+                                const stream = await navigator.mediaDevices.getDisplayMedia({
+                                    video: true,
+                                    audio: true
+                                });
+                                setActiveStream(stream);
+                            } catch (err) {
+                                console.error("Screen sharing error:", err);
+                                toast.error("Screen sharing error", {
+                                    description: "Failed to start screen sharing. Please try again."
+                                });
+                            }
+                        }
+                    }
                 });
             }
         } else {
@@ -103,8 +95,7 @@ export default function HostPage() {
         setConnections([]);
         setRoomId("");
 
-        toast({
-            title: "Session ended",
+        toast.info("Session ended", {
             description: "Your screen sharing session has been terminated."
         });
 

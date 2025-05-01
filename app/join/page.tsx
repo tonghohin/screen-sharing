@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Users } from "lucide-react";
 import Link from "next/link";
 import Peer from "peerjs";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 export default function JoinPage() {
     const [roomId, setRoomId] = useState("");
@@ -15,7 +15,6 @@ export default function JoinPage() {
     const [activeStream, setActiveStream] = useState<MediaStream | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
     const peerRef = useRef<Peer | null>(null);
-    const { toast } = useToast();
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -41,10 +40,8 @@ export default function JoinPage() {
 
     function joinRoom(roomIdToJoin: string = roomId) {
         if (!roomIdToJoin.trim()) {
-            toast({
-                title: "Room code required",
-                description: "Please enter a valid room code.",
-                variant: "destructive"
+            toast.error("Room code required", {
+                description: "Please enter a valid room code."
             });
             return;
         }
@@ -58,8 +55,7 @@ export default function JoinPage() {
             const connection = peer.connect(roomIdToJoin);
 
             connection.on("open", () => {
-                toast({
-                    title: "Connected!",
+                toast.success("Connected!", {
                     description: "Waiting for host to share their screen..."
                 });
             });
@@ -75,10 +71,8 @@ export default function JoinPage() {
                 setIsConnecting(false);
                 setRoomId("");
                 setActiveStream(null);
-                toast({
-                    title: "Disconnected",
-                    description: "The session has been ended.",
-                    variant: "destructive"
+                toast.error("Disconnected", {
+                    description: "The session has been ended."
                 });
             });
         });
@@ -86,10 +80,8 @@ export default function JoinPage() {
         peer.on("error", (err) => {
             console.error("Peer error:", err);
             setIsConnecting(false);
-            toast({
-                title: "Connection failed",
-                description: "Could not connect to the room. Please check the room code and try again.",
-                variant: "destructive"
+            toast.error("Connection failed", {
+                description: "Could not connect to the room. Please check the room code and try again."
             });
         });
     }
