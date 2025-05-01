@@ -113,7 +113,7 @@ export default function JoinPage() {
                         </div>
                     ) : (
                         <div className="group relative aspect-video overflow-hidden rounded-lg bg-gray-900">
-                            <video ref={videoRef} className="h-full w-full object-contain" autoPlay playsInline loop controls />
+                            <video ref={videoRef} className="h-full w-full object-contain" autoPlay playsInline loop controls muted />
                         </div>
                     )}
                 </CardContent>
