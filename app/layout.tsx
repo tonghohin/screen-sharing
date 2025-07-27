@@ -10,7 +10,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
     title: "Screen Share - Share Your Screen Instantly",
     description: "Share your screen instantly with anyone using a simple room code. No downloads or sign-ups required.",
-    keywords: "screen sharing, webrtc, online screen share, browser screen sharing, free screen sharing"
+    keywords: "screen sharing, webrtc, online screen share, browser screen sharing, free screen sharing",
+    other: {
+        "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || ""
+    }
 } satisfies Metadata;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
