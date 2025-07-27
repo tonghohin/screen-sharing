@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Monitor, Users } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Peer from "peerjs";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -16,19 +16,27 @@ export default function HostPage() {
     const [activeStream, setActiveStream] = useState<MediaStream | null>(null);
     const [connections, setConnections] = useState<string[]>([]);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const customRoomId = searchParams.get("room");
 
     useEffect(() => {
         try {
-            const newPeer = new Peer({ debug: 2 });
+            const newPeer = customRoomId ? new Peer(customRoomId) : new Peer();
             setPeer(newPeer);
 
             newPeer.on("open", (id) => {
                 setRoomId(id);
             });
 
+            newPeer.on("error", (err) => {
+                toast.error("Failed to create room", {
+                    description: err.message
+                });
+                router.push("/");
+            });
+
             newPeer.on("connection", (connection) => {
                 setConnections((prev) => [...prev, connection.peer]);
-
                 connection.on("close", () => {
                     setConnections((prev) => prev.filter((peerId) => peerId !== connection.peer));
                 });
@@ -39,66 +47,63 @@ export default function HostPage() {
             };
         } catch (error) {
             console.error("Error initializing peer:", error);
+            toast.error("Failed to create room", {
+                description: "Please try again."
+            });
+            router.push("/");
         }
-    }, []);
+    }, [customRoomId]);
 
     useEffect(() => {
         if (!peer) return;
 
-        if (!activeStream) {
-            if (connections.length > 0) {
-                toast.info("New viewer connected", {
-                    description: "Click to start sharing your screen.",
-                    duration: Infinity,
-                    action: {
-                        label: "Start Sharing",
-                        onClick: async () => {
-                            try {
-                                const stream = await navigator.mediaDevices.getDisplayMedia({
-                                    video: true,
-                                    audio: true
-                                });
-                                setActiveStream(stream);
-                            } catch (err) {
-                                console.error("Screen sharing error:", err);
-                                toast.error("Screen sharing error", {
-                                    description: "Failed to start screen sharing. Please try again."
-                                });
-                            }
+        if (!activeStream && connections.length > 0) {
+            toast.info("New viewer connected", {
+                description: "Click to start sharing your screen.",
+                duration: Infinity,
+                action: {
+                    label: "Start Sharing",
+                    onClick: async () => {
+                        try {
+                            const stream = await navigator.mediaDevices.getDisplayMedia({
+                                video: true,
+                                audio: true
+                            });
+                            setActiveStream(stream);
+                        } catch (err) {
+                            console.error("Screen sharing error:", err);
+                            toast.error("Screen sharing error", {
+                                description: "Failed to start screen sharing. Please try again."
+                            });
                         }
                     }
-                });
-            }
-        } else {
+                }
+            });
+        } else if (activeStream) {
             connections.forEach((connection) => {
                 const call = peer.call(connection, activeStream);
-
                 activeStream.getTracks()[0].onended = () => {
                     call.close();
                     activeStream.getTracks().forEach((track) => track.stop());
                 };
             });
         }
-    }, [peer, toast, activeStream, connections]);
+    }, [peer, activeStream, connections]);
 
     function endSession() {
         if (activeStream) {
             activeStream.getTracks().forEach((track) => track.stop());
             setActiveStream(null);
         }
-
         if (peer) {
             peer.destroy();
             setPeer(null);
         }
-
         setConnections([]);
         setRoomId("");
-
         toast.info("Session ended", {
             description: "Your screen sharing session has been terminated."
         });
-
         router.push("/");
     }
 
@@ -122,7 +127,6 @@ export default function HostPage() {
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
                         <ShareOptions roomId={roomId} />
-
                         <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
                             <div className="flex items-center gap-2 text-gray-500">
                                 <Users className="size-4" />
@@ -130,7 +134,6 @@ export default function HostPage() {
                             </div>
                             <span className="text-lg font-semibold">{connections.length}</span>
                         </div>
-
                         {activeStream && (
                             <Button variant="destructive" onClick={endSession} className="self-end">
                                 Stop sharing

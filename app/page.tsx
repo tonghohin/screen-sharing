@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, Monitor, Users } from "lucide-react";
 import Link from "next/link";
+import { CustomRoomIdForm } from "./_components/custom-room-id-form";
 
 export default function Home() {
     return (
@@ -21,10 +22,11 @@ export default function Home() {
                         </CardTitle>
                         <CardDescription>Create a room and share your screen with others</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex flex-col gap-4">
                         <Link href="/host">
                             <Button className="w-full">Create Room</Button>
                         </Link>
+                        <CustomRoomIdForm />
                     </CardContent>
                 </Card>
 
