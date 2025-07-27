@@ -6,7 +6,7 @@ export function Clarity() {
     if (!clarityProjectId) return null;
 
     return (
-        <Script id="microsoft-clarity" type="text/javascript">
+        <Script id="microsoft-clarity" type="text/javascript" strategy="beforeInteractive">
             {`
                 (function(c,l,a,r,i,t,y){
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
