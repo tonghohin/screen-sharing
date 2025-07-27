@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Peer from "peerjs";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ShareOptions } from "./_components/ShareOptions";
+import { ShareOptions } from "./_components/share-options";
 
 export default function HostPage() {
     const [roomId, setRoomId] = useState("");
