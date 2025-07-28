@@ -20,9 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={inter.className}>
-                <main className="flex min-h-screen flex-col justify-between bg-linear-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+                <main className="from-background to-muted flex min-h-screen flex-col justify-between bg-linear-to-b">
                     {children}
-                    <footer className="px-4 py-8 text-center text-sm text-gray-500">
+                    <footer className="text-muted-foreground px-4 py-8 text-center text-sm">
                         Built by{" "}
                         <Link href="https://tonghohin.vercel.app" className="underline" target="_blank">
                             Hin

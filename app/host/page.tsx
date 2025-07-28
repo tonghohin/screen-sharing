@@ -127,8 +127,8 @@ export default function HostPage() {
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4">
                         <ShareOptions roomId={roomId} />
-                        <div className="flex items-center justify-between rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-                            <div className="flex items-center gap-2 text-gray-500">
+                        <div className="bg-muted/50 flex items-center justify-between rounded-lg p-4">
+                            <div className="text-muted-foreground flex items-center gap-2">
                                 <Users className="size-4" />
                                 <span className="text-sm">Current Viewers</span>
                             </div>

@@ -112,7 +112,7 @@ export default function JoinPage() {
                             </Button>
                         </div>
                     ) : (
-                        <div className="group relative aspect-video overflow-hidden rounded-lg bg-gray-900">
+                        <div className="relative overflow-hidden rounded-lg">
                             <video ref={videoRef} className="h-full w-full object-contain" autoPlay playsInline loop controls muted />
                         </div>
                     )}
